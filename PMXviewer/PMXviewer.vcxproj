@@ -115,8 +115,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="packages\glfw.3.2.1.5\build\native\glfw.targets" Condition="Exists('packages\glfw.3.2.1.5\build\native\glfw.targets')" />
+    <Import Project="packages\glm.0.9.9\build\native\glm.targets" Condition="Exists('packages\glm.0.9.9\build\native\glm.targets')" />
+    <Import Project="packages\unofficial-flayan-glew.redist.2.1.0\build\native\unofficial-flayan-glew.redist.targets" Condition="Exists('packages\unofficial-flayan-glew.redist.2.1.0\build\native\unofficial-flayan-glew.redist.targets')" />
   </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>이 프로젝트는 이 컴퓨터에 없는 NuGet 패키지를 참조합니다. 해당 패키지를 다운로드하려면 NuGet 패키지 복원을 사용하십시오. 자세한 내용은 http://go.microsoft.com/fwlink/?LinkID=322105를 참조하십시오. 누락된 파일은 {0}입니다.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('packages\glfw.3.2.1.5\build\native\glfw.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\glfw.3.2.1.5\build\native\glfw.targets'))" />
+    <Error Condition="!Exists('packages\glm.0.9.9\build\native\glm.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\glm.0.9.9\build\native\glm.targets'))" />
+    <Error Condition="!Exists('packages\unofficial-flayan-glew.redist.2.1.0\build\native\unofficial-flayan-glew.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\unofficial-flayan-glew.redist.2.1.0\build\native\unofficial-flayan-glew.redist.targets'))" />
+  </Target>
 </Project>
