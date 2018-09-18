@@ -20,6 +20,7 @@ Model* Model::GetModelByName(std::string fileName)
 		return NULL;
 	}
 	model->GetFileInfo(file);
+	model->GetDataIndex(file);
 	
 	return model;
 }
@@ -42,10 +43,23 @@ void Model::GetFileInfo(FILE* file) {
 
 void Model::PrintModelInfo() {
 	using namespace std;
-	cout << "PMX version " << fileVersion << endl;
-	cout << "Datas : " << (int)dataCount << endl;
-	cout << "Encoding : " << (encoding == Encoding(UTF8) ? "UTF8" : "UTF16") << endl;
-	cout << "Additional UV count : " << (int)additionalUVcount << endl;
+	cout << "PMX version "				<< fileVersion << endl;
+	cout << "Datas \t: "				<< (int)dataCount << endl;
+	cout << "Encoding \t: "				<< (encoding == Encoding(UTF8) ? "UTF8" : "UTF16") << endl;
+	cout << "Additional UV count \t: "	<< (int)additionalUVcount << endl;
+	cout << endl;
+	cout << "Vertex Index Size \t: "	<< (int)dataIndexes[0] << endl;
+	cout << "Texture Index Size \t: "	<< (int)dataIndexes[1] << endl;
+	cout << "Material Index Size \t: "	<< (int)dataIndexes[2] << endl;
+	cout << "Bone Index Size \t: "		<< (int)dataIndexes[3] << endl;
+	cout << "Morph Index Size \t: "		<< (int)dataIndexes[4] << endl;
+	cout << "Rigid Index Size \t: "		<< (int)dataIndexes[5] << endl;
+}
+
+void Model::GetDataIndex(FILE * file) {
+	for (int i = 0; i < 6; i++) {
+		fread(&dataIndexes[i], 1, 1, file);
+	}
 }
 Model::~Model()
 {
