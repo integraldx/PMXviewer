@@ -14,23 +14,38 @@ Model* Model::GetModelByName(std::string fileName)
 		std::cout << "Failed to open file" << std::endl;
 		return NULL;
 	}
-	if (!VerifyHeader(file)) {
+	Model* model = new Model();
+	if (!model->VerifyHeader(file)) {
 		std::cout << "Wrong PMX file" << std::endl;
 		return NULL;
 	}
-	return new Model();
+	model->GetFileInfo(file);
+	
+	return model;
 }
 
 bool Model::VerifyHeader(FILE* file) {
 	char headerPMX[4];
-	float headerVersion;
 	fread(headerPMX, 4, 1, file);
-	fread(&headerVersion, 1, 4, file);
+	fread(&fileVersion, 1, 4, file);
 	if (!std::strcmp(headerPMX, "PMX ")) {
 		return false;
 	}
-	std::cout << "PMX version " << headerVersion << std::endl;
 	return true;
+}
+
+void Model::GetFileInfo(FILE* file) {
+	fread(&dataCount, 1, 1, file);
+	fread(&encoding, 1, 1, file);
+	fread(&additionalUVcount, 1, 1, file);
+}
+
+void Model::PrintModelInfo() {
+	using namespace std;
+	cout << "PMX version " << fileVersion << endl;
+	cout << "Datas : " << (int)dataCount << endl;
+	cout << "Encoding : " << (encoding == Encoding(UTF8) ? "UTF8" : "UTF16") << endl;
+	cout << "Additional UV count : " << (int)additionalUVcount << endl;
 }
 Model::~Model()
 {

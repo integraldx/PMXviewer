@@ -20,6 +20,7 @@ int main() {
 	}
 
 	std::cout << "PMX Successfully opened." << std::endl;
+	model->PrintModelInfo();
 	std::getchar();
 	std::getchar();
 	return 0;

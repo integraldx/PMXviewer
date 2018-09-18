@@ -5,15 +5,21 @@
 #include <iostream>
 
 #include <glm/glm.hpp>
+#include <cstddef>
 #include <Bits.h>
+
+
 class Model
 {
 private:
-	enum TextEncoding{UTF16, UTF8};
-	static bool VerifyHeader(FILE *);
-	byte dataCount;
-	TextEncoding encoding;
-	int additionalUVcount;
+	enum Encoding{UTF16, UTF8};
+	float fileVersion;
+	uint8_t dataCount = 0;
+	uint8_t additionalUVcount = 0;
+	uint8_t encoding;
+	
+	bool VerifyHeader(FILE *);
+	void GetFileInfo(FILE *);
 
 public:
 	Model();
@@ -21,6 +27,6 @@ public:
 	int GetVertexNum();
 
 	static Model* GetModelByName(std::string);
-	
+	void PrintModelInfo();
 };
 
